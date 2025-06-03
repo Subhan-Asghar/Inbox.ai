@@ -1,17 +1,26 @@
 import { NextResponse,NextRequest } from "next/server";
-import { groq } from '@ai-sdk/groq';
+import { createGroq } from '@ai-sdk/groq';
 import { generateText } from 'ai';
+
+const groq = createGroq({
+    apiKey:process.env.GROQ_API_KEY
+  });
+
+const model = groq('gemma2-9b-it');
+  
 export async function POST(req:NextRequest){
-    const data=await req.json()
-    const result = await generateText({
-        model: groq('qwen-qwq-32b'),
-        providerOptions: {
-        groq: { reasoningFormat: 'parsed' },
+    const {prompt} =await req.json()
+
+    const result= await generateText({
+        model:model,
+        tools:{
+
         },
-        prompt: data.prompt,
-    });
+        prompt: prompt
+    })
+
     return NextResponse.json({
-        result:result
+        response:result.text,
     })
 
 }
