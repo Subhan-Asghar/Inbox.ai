@@ -1,6 +1,7 @@
-import { google } from "googleapis";
 import { getOAuthClient } from "@/lib/google";
 import { NextRequest, NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -14,8 +15,8 @@ export async function GET(req: NextRequest) {
   const { tokens } = await oauth2Client.getToken(code);
   oauth2Client.setCredentials(tokens);
 
-  const gmail = google.gmail({ version: "v1", auth: oauth2Client });
-  return NextResponse.json({
-    gmail:gmail
-  });
+  const tokenPath = path.join(process.cwd(), "token.json");
+  fs.writeFileSync(tokenPath, JSON.stringify(tokens));
+
+  return NextResponse.redirect(new URL("/", req.url));
 }
