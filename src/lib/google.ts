@@ -18,7 +18,3 @@ export function getAuthUrl() {
   });
 }
 
-export function disconnect(){
-  const oauth2Client = getOAuthClient();
-  return oauth2Client
-}
