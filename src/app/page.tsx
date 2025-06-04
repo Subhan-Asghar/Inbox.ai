@@ -7,6 +7,7 @@ export default function Home() {
       It interacts with Gmail APIs to manage emails, powered by AI-driven logic for an intuitive and responsive user experience.
     </p>
     <button className=""><a href="/api/gmail/connect">Connect</a></button>
+    <button className=""><a href="/api/gmail/disconnect">Disconnect</a></button>
     </>
   );
 }

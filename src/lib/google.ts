@@ -17,3 +17,8 @@ export function getAuthUrl() {
     scope: SCOPES,
   });
 }
+
+export function disconnect(){
+  const oauth2Client = getOAuthClient();
+  return oauth2Client
+}
