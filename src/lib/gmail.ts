@@ -11,6 +11,6 @@ export function getGmailClient() {
   );
 
   oauth2Client.setCredentials(tokens);
-
-  return google.gmail({ version: "v1", auth: oauth2Client });
+  const gmail=google.gmail({ version: "v1", auth: oauth2Client })
+  return gmail
 }

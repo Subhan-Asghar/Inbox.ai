@@ -15,8 +15,12 @@ export async function GET(req: NextRequest) {
   const { tokens } = await oauth2Client.getToken(code);
   oauth2Client.setCredentials(tokens);
 
+  if (!tokens.refresh_token) {
+    console.warn("No refresh_token returned. Re-auth with prompt: 'consent'");
+  }
+
   const tokenPath = path.join(process.cwd(), "token.json");
-  fs.writeFileSync(tokenPath, JSON.stringify(tokens));
+  fs.writeFileSync(tokenPath, JSON.stringify(tokens, null, 2));
 
   return NextResponse.redirect(new URL("/", req.url));
 }
