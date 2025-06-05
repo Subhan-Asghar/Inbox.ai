@@ -20,7 +20,7 @@ export async function POST(req:NextRequest){
     })
 
     return NextResponse.json({
-        response:agent_result.toolResults
+        response:agent_result.toolResults[0].result
     })
 
 }
