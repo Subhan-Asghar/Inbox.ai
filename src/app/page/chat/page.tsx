@@ -72,7 +72,7 @@ export default function Chat() {
             }}
           />
           <button
-            className="ml-4 bg-black hover:bg-gray-800 text-white p-3 rounded-full transition-all shadow"
+            className="ml-4 bg-black hover:bg-gray-800 text-white p-3 rounded-full transition-all shadow cursor-pointer"
             onClick={sendMessage}
             aria-label="Send message"
           >
