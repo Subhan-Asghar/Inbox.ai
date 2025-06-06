@@ -2,7 +2,7 @@ import { getOAuthClient } from "@/lib/google";
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
-import { cookies } from "next/headers";
+
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);

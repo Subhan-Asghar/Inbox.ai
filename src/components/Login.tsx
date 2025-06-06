@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from "react";
+
 import { FcGoogle } from 'react-icons/fc';
 
 export default function Login() {
