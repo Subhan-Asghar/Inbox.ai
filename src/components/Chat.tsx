@@ -50,10 +50,10 @@ export default function Chat() {
 
       {/* Chat Area */}
       <div
-        ref={scrollRef}
-        className="flex-1 overflow-y-auto px-4 py-6 bg-[#F8F9FA]"
-        style={{ scrollBehavior: 'smooth', paddingBottom: '180px' }}
-      >
+  ref={scrollRef}
+  className="flex-1 overflow-y-auto px-4 pt-[80px] pb-[180px] bg-[#F8F9FA]"
+  style={{ scrollBehavior: 'smooth' }}
+>
         <div className="max-w-3xl mx-auto space-y-4">
           {messages.map((msg, index) => (
             <div
