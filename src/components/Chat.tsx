@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
 import axios from 'axios';
+import Navbar from './Navbar';
 type Message = {
   sender: 'user' | 'ai';
   text: string;
@@ -28,23 +29,23 @@ export default function Chat() {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages]);
 
-  useEffect(() => {
     axios.get("/api/gmail/session")
-      .then(res => {
-        if (!res.data.connected) {
-          window.location.reload(); 
-        
-        }
-      })
-      .catch(err => {
-        console.error("Session check failed:", err);
-      });
-  }, []);
+    .then(res => {
+      if (!res.data.connected) {
+        window.location.href = "/"
+      
+      }
+    })
+    .catch(err => {
+      console.error("Session check failed:", err);
+    });
+    
+  }, [messages]);
 
   return (
     <>
+    <Navbar/>
     <div className="flex flex-col h-screen bg-white text-black font-sans">
 
       {/* Chat Area */}
