@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
-
+import axios from 'axios';
 type Message = {
   sender: 'user' | 'ai';
   text: string;
@@ -30,7 +30,21 @@ export default function Chat() {
     }
   }, [messages]);
 
+  useEffect(() => {
+    axios.get("/api/gmail/session")
+      .then(res => {
+        if (!res.data.connected) {
+          window.location.reload(); 
+        
+        }
+      })
+      .catch(err => {
+        console.error("Session check failed:", err);
+      });
+  }, []);
+
   return (
+    <>
     <div className="flex flex-col h-screen bg-white text-black font-sans">
 
       {/* Chat Area */}
@@ -81,5 +95,6 @@ export default function Chat() {
         </div>
       </div>
     </div>
+    </>
   );
 }
