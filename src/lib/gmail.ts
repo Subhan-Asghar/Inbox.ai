@@ -1,16 +1,17 @@
 import fs from "fs";
-import { google } from "googleapis";
+import { google, gmail_v1 } from "googleapis";
+import { getOAuthClient } from "./google";
 
-export function getGmailClient() {
-  const tokens = JSON.parse(fs.readFileSync("token.json", "utf8"));
+let gmailClient: gmail_v1.Gmail | null = null;
 
-  const oauth2Client = new google.auth.OAuth2(
-    process.env.GOOGLE_CLIENT_ID,
-    process.env.GOOGLE_CLIENT_SECRET,
-    process.env.GOOGLE_REDIRECT_URI
-  );
+export function getGmailClient(): gmail_v1.Gmail {
+  if (!gmailClient) {
+    const tokens = JSON.parse(fs.readFileSync("token.json", "utf8"));
 
-  oauth2Client.setCredentials(tokens);
-  const gmail=google.gmail({ version: "v1", auth: oauth2Client })
-  return gmail
+    const oauth2Client = getOAuthClient();
+    oauth2Client.setCredentials(tokens);
+    gmailClient = google.gmail({ version: "v1", auth: oauth2Client });
+  }
+
+  return gmailClient;
 }
