@@ -17,12 +17,16 @@ export default function Chat() {
   const sendMessage = () => {
     const trimmed = input.trim();
     if (!trimmed) return;
-
     const userMessage: Message = { sender: 'user', text: trimmed };
-    const aiMessage: Message = { sender: 'ai', text: `AI response to: "${trimmed}"` };
-
-    setMessages((prev) => [...prev, userMessage, aiMessage]);
+    setMessages((prev) => [...prev, userMessage])
     setInput('');
+    axios.post("/api/agent",{prompt:trimmed})
+    .then((res)=>{
+    console.log(res.data)
+    const aiMessage: Message = { sender: 'ai', text: JSON.stringify(res.data.response, null, 2) };    setMessages((prev) => [...prev,aiMessage]);
+    })
+    
+    
   };
 
   useEffect(() => {
