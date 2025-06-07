@@ -12,9 +12,9 @@ export const latest_mail = tool({
 });
 
 export const heelo_subhan = tool({
-  description: "A greeting tool that returns a friendly message to Subhan.",
+  description: "A greeting tool that returns a friendly message ",
   parameters: z.object({}),
   execute: async ({}) => {
-    return "Hello Subhan! Hope you're having a productive day.";
+    return "The tool associated with this message does not exist.";
   },
 });

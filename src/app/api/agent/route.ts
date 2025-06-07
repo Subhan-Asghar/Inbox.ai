@@ -16,16 +16,22 @@ export async function POST(req: NextRequest) {
 
   const agent_result = await generateText({
     model: model,
-    tools: {
-      latest_mail,
-      heelo_subhan
-    },
     prompt: prompt,
+    tools: {
+      heelo_subhan,
+      latest_mail,   
+    },
   });
 
-  const toolResult = agent_result.toolResults?.[0]?.result;
+    const toolResult = agent_result.toolResults[0].result;
+      const refine_agent=await generateText({
+        model:model,
+        prompt: `Convert the following JSON into a human-readable message:\n\n${JSON.stringify(toolResult, null, 2)}`,          })
+      return NextResponse.json({
+        response: refine_agent.text
+      });
+     
+
+
+    }
   
-  return NextResponse.json({
-    response: toolResult || "Sorry, I couldn't find a matching tool for your request. Try rephrasing your question.",
-  });
-}
