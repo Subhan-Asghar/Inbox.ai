@@ -34,3 +34,30 @@ export const latestMail = async () => {
     id: latestMessageId,
   };
 };
+
+export const sent_mail=async(to:string[],message:string,subject:string):Promise<string>=>{
+  const gmail = getGmailClient();
+
+  const rawMessage=[
+    `To: ${to.join(',')}`,
+    `Subject: ${subject}`,
+    'Content-Type: text/plain; charset="UTF-8"',
+    '',
+    message,
+  ].join('\n');
+
+  const encodedMessage = Buffer.from(rawMessage)
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
+
+  const response = await gmail.users.messages.send({
+    userId: 'me',
+    requestBody: {
+      raw: encodedMessage,
+    },
+  });
+
+  return `Message sent with ID: ${response.data.id}`;
+};
