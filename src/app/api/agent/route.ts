@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { createGroq } from '@ai-sdk/groq';
 import { generateText } from 'ai';
-import { heelo_subhan, latest_mail } from "@/tools/tools";
+import { heelo_subhan, latest_mail, Sent_mail} from "@/tools/tools";
 import { refreshToken } from "@/lib/refreshToken";
 
 const groq = createGroq({
@@ -19,7 +19,8 @@ export async function POST(req: NextRequest) {
     prompt: prompt,
     tools: {
       heelo_subhan,
-      latest_mail,   
+      latest_mail,
+      Sent_mail 
     },
   });
 

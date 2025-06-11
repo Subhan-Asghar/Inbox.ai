@@ -59,5 +59,5 @@ export const sent_mail=async(to:string[],message:string,subject:string):Promise<
     },
   });
 
-  return `Message sent with ID: ${response.data.id}`;
+  return `Mail sent successfully `;
 };
