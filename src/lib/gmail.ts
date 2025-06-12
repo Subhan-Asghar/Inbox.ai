@@ -6,11 +6,23 @@ let gmailClient: gmail_v1.Gmail | null = null;
 
 export function getGmailClient(): gmail_v1.Gmail {
   if (!gmailClient) {
-    const tokens = JSON.parse(fs.readFileSync("token.json", "utf8"));
+    try {
+      const tokenPath = "token.json";
 
-    const oauth2Client = getOAuthClient();
-    oauth2Client.setCredentials(tokens);
-    gmailClient = google.gmail({ version: "v1", auth: oauth2Client });
+      if (!fs.existsSync(tokenPath)) {
+        throw new Error("OAuth token file not found");
+      }
+
+      const tokens = JSON.parse(fs.readFileSync(tokenPath, "utf8"));
+
+      const oauth2Client = getOAuthClient();
+      oauth2Client.setCredentials(tokens);
+
+      gmailClient = google.gmail({ version: "v1", auth: oauth2Client });
+    } catch (error) {
+      console.error("Failed to initialize Gmail client:", error);
+      throw error;
+    }
   }
 
   return gmailClient;
