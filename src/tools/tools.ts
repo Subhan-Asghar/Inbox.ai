@@ -35,13 +35,20 @@ export const Sent_mail=tool({
 })
 
 export const get_mail_date = tool({
-  description: "Get emails between two dates.",
+  description: "Get emails between two dates (e.g., 13/06/2025 to 14/06/2025).",
   parameters: z.object({
-    from_date: z.date(),
-    to_date: z.date(),
+    from_date: z.string(),
+    to_date: z.string(),
   }),
   execute: async ({ from_date, to_date }) => {
-    const result = await get_mail(from_date, to_date);
+    const parsedFrom = new Date(from_date);
+    const parsedTo = new Date(to_date);
+
+    if (isNaN(parsedFrom.getTime()) || isNaN(parsedTo.getTime())) {
+      throw new Error("Invalid date format. Please use YYYY-MM-DD or DD/MM/YYYY.");
+    }
+
+    const result = await get_mail(parsedFrom, parsedTo);
     return result;
   },
 });
