@@ -61,3 +61,32 @@ export const sent_mail=async(to:string[],message:string,subject:string):Promise<
 
   return `Mail sent successfully `;
 };
+
+export const get_mail = async (from_date: Date, to_date: Date): Promise<string[]> => {
+  const gmail = getGmailClient();
+
+  const after = Math.floor(from_date.getTime() / 1000);
+  const before = Math.floor(to_date.getTime() / 1000);
+
+  const res = await gmail.users.messages.list({
+    userId: "me",
+    q: `after:${after} before:${before}`,
+  });
+
+  const messages = res.data.messages || [];
+  const mes_text: string[] = [];
+
+  for (const msg of messages) {
+    if (!msg.id) continue;
+  
+    const fullMsg = await gmail.users.messages.get({
+      userId: "me",
+      id: msg.id,
+    });
+  
+    const snippet = fullMsg.data.snippet || "(No snippet)";
+    mes_text.push(snippet);
+  }
+
+  return mes_text;
+};

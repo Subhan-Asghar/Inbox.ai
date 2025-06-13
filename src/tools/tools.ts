@@ -1,6 +1,6 @@
 import { tool } from "ai";
 import { z } from "zod";
-import { latestMail, sent_mail } from "./utils";
+import { latestMail, sent_mail,get_mail } from "./utils";
 
 // Get the latest mail
 export const latest_mail = tool({
@@ -33,3 +33,15 @@ export const Sent_mail=tool({
     return `${result}`
   }
 })
+
+export const get_mail_date = tool({
+  description: "Get emails between two dates.",
+  parameters: z.object({
+    from_date: z.date(),
+    to_date: z.date(),
+  }),
+  execute: async ({ from_date, to_date }) => {
+    const result = await get_mail(from_date, to_date);
+    return result;
+  },
+});
