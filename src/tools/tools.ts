@@ -1,6 +1,6 @@
 import { tool } from "ai";
 import { z } from "zod";
-import { latestMail, sent_mail,get_mail } from "./utils";
+import { latestMail, sent_mail,get_mail,get_mail_address } from "./utils";
 
 // Get the latest mail
 export const latest_mail = tool({
@@ -12,7 +12,7 @@ export const latest_mail = tool({
   },
 });
 
-// Just to fix the issuse 
+
 export const heelo_subhan = tool({
   description: "A greeting tool that returns a friendly message ",
   parameters: z.object({}),
@@ -52,3 +52,15 @@ export const get_mail_date = tool({
     return result;
   },
 });
+
+export const getMailAddress=tool({
+  description:"Get the list of email that match the keyword",
+  parameters:z.object({
+    keyword:z.string()
+  }),
+  execute:async({keyword})=>{
+    const result= await get_mail_address(keyword)
+    return result
+
+  }
+})

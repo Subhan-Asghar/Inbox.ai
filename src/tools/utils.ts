@@ -90,3 +90,35 @@ export const get_mail = async (from_date: Date, to_date: Date): Promise<string[]
 
   return mes_text;
 };
+
+export const get_mail_address = async (keyword: string): Promise<string[]> => {
+  const gmail = getGmailClient();
+
+  const res = await gmail.users.messages.list({
+    userId: "me",
+    q: `${keyword}`,
+  });
+
+  const messages = res.data.messages || [];
+  const emailAddresses: string[] = [];
+
+  for (const msg of messages) {
+    if (!msg.id) continue;
+
+    const fullMsg = await gmail.users.messages.get({
+      userId: "me",
+      id: msg.id,
+    });
+
+    const headers = fullMsg.data.payload?.headers || [];
+
+    const fromHeader = headers.find(h => h.name.toLowerCase() === "from");
+    if (fromHeader && fromHeader.value) {
+      const match = fromHeader.value.match(/<(.+)>/);
+      const email = match ? match[1] : fromHeader.value;
+      emailAddresses.push(email);
+    }
+  }
+
+  return emailAddresses;
+};
