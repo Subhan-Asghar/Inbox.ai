@@ -1,4 +1,3 @@
-import { GiFamilyHouse } from "react-icons/gi";
 import { getGmailClient } from "../lib/gmail";
 
 export const latestMail = async () => {
@@ -131,4 +130,24 @@ export const list_label=async():Promise<string[]>=>{
   })
   const labels=res.data.labels||[];
   return labels.map(label=>label.name||"Unnamed Label");
+}
+
+export const create_label=async(name:string):Promise<string>=>{
+  const gmail=getGmailClient()
+  try{
+    const res=gmail.users.labels.create({
+      userId:"me",
+      requestBody:{
+        name:name,
+        labelListVisibility:"labelShow",
+        messageListVisibility:"show",
+      }
+    })
+  
+    return "Label Created Successfully";
+  }
+  catch(err){
+    return  `Failed: ${err} `
+  }
+  
 }
