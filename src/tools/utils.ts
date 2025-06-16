@@ -1,3 +1,4 @@
+import { GiFamilyHouse } from "react-icons/gi";
 import { getGmailClient } from "../lib/gmail";
 
 export const latestMail = async () => {
@@ -122,3 +123,12 @@ export const get_mail_address = async (keyword: string): Promise<string[]> => {
 
   return emailAddresses;
 };
+
+export const list_label=async():Promise<string[]>=>{
+  const gmail=getGmailClient();
+  const res=await gmail.users.labels.list({
+    userId:"me"
+  })
+  const labels=res.data.labels||[];
+  return labels.map(label=>label.name||"Unnamed Label");
+}

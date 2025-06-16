@@ -1,6 +1,7 @@
 import { tool } from "ai";
 import { z } from "zod";
-import { latestMail, sent_mail,get_mail,get_mail_address } from "./utils";
+import { latestMail, sent_mail,get_mail,
+  get_mail_address,list_label } from "./utils";
 
 // Get the latest mail
 export const latest_mail = tool({
@@ -62,5 +63,14 @@ export const getMailAddress=tool({
     const result= await get_mail_address(keyword)
     return result
 
+  }
+})
+
+export const listLabel=tool({
+  description:"Get the list of the labels",
+  parameters:z.object({}),
+  execute:async({})=>{
+    const result=await list_label();
+    return result
   }
 })
